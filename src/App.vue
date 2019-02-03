@@ -1,12 +1,24 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
+    <question-header/>
     <router-view/>
+    <question-footer/>
   </div>
 </template>
+
+<script>
+
+import AppHeader from './components/AppHeader.vue';
+import AppFooter from './components/AppFooter.vue';
+
+export default {
+  components: {
+    'question-header': AppHeader,
+    'question-footer': AppFooter,
+  },
+};
+
+</script>
 
 <style>
 #app {
