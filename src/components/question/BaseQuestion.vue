@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="question-container">
     <form>
       <div id="form-header">
         <slot name="form-header"></slot>
@@ -35,4 +35,12 @@ export default
 </script>
 
 <style scoped>
+
+.question-container {
+  border: #3DD solid 5px;
+  background: #FFF;
+  border-radius: 10px;
+  margin: 0 2em 2em 2em;
+}
+
 </style>

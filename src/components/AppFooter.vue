@@ -2,7 +2,7 @@
   <div id="app-footer">
     <ul>
       <li>
-        <a href="#">some link</a>
+        <a href="#">some FOOTER link</a>
       </li>
     </ul>
   </div>

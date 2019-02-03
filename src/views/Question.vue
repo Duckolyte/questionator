@@ -1,8 +1,9 @@
 <template>
   <div class="question">
-    <!-- <question-header></question-header> -->
-    <component :is="activeQuestion"></component>
-    <!-- <question-footer"></question-footer> -->
+    <question-summary></question-summary>
+    <div id="question-container">
+      <component :is="activeQuestion"></component>
+    </div>
   </div>
 </template>
 
@@ -10,6 +11,7 @@
 
 import InputQuestion from '../components/question/InputQuestion.vue';
 import RadioQuestion from '../components/question/RadioQuestion.vue';
+import QuestionSummary from '../components/sidebar/QuestionSummary.vue';
 
 export default {
   /*
@@ -32,6 +34,7 @@ export default {
   {
     'input-question': InputQuestion,
     'radio-question': RadioQuestion,
+    'question-summary': QuestionSummary,
   },
   data() {
     return {
@@ -43,5 +46,33 @@ export default {
 </script>
 
 <style scoped>
+
+.question {
+  display: flex;
+  flex-direction: row;
+}
+
+#question-container {
+  flex: auto;
+}
+
+.question-deprecated {
+  flex-direction: row;
+  align-items: start;
+  align-content: stretch;
+  justify-content: start;
+}
+
+#floating-question {
+  float: left;
+}
+
+#center-question {
+  vertical-align: center;
+}
+
+.stop-float {
+  clear: both;
+}
 
 </style>

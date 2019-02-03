@@ -1,8 +1,8 @@
 <template>
   <div id="app">
-    <question-header/>
+    <app-header/>
     <router-view/>
-    <question-footer/>
+    <app-footer/>
   </div>
 </template>
 
@@ -13,8 +13,8 @@ import AppFooter from './components/AppFooter.vue';
 
 export default {
   components: {
-    'question-header': AppHeader,
-    'question-footer': AppFooter,
+    'app-header': AppHeader,
+    'app-footer': AppFooter,
   },
 };
 
