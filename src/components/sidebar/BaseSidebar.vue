@@ -39,7 +39,7 @@ export default {
 <style scoped>
 
 #base-sidebar {
-  float: left;
+  /*box-shadow: 10px 10px 10px 0px #888888;*/
 }
 
 </style>

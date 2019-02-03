@@ -40,7 +40,9 @@ export default
   border: #3DD solid 5px;
   background: #FFF;
   border-radius: 10px;
-  margin: 0 2em 2em 2em;
+  margin: 0 5em 5em 5em;
+  padding: 3em;
+  /*box-shadow: 8px 8px 5px 8px #888888;*/
 }
 
 </style>

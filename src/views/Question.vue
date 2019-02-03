@@ -56,23 +56,4 @@ export default {
   flex: auto;
 }
 
-.question-deprecated {
-  flex-direction: row;
-  align-items: start;
-  align-content: stretch;
-  justify-content: start;
-}
-
-#floating-question {
-  float: left;
-}
-
-#center-question {
-  vertical-align: center;
-}
-
-.stop-float {
-  clear: both;
-}
-
 </style>
