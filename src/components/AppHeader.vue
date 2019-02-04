@@ -6,7 +6,9 @@
       <router-link to="/">Home</router-link> |
       <router-link to="/about">About</router-link> |
       <router-link to="/test">Test</router-link> |
-      <router-link to="/question">Question</router-link>
+      <router-link to="/question">Question</router-link> |
+      <router-link to="/auth">Authentication</router-link> |
+      <router-link to="/user">User Recording</router-link>
     </span>
   </div>
 </template>
