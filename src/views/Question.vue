@@ -3,7 +3,7 @@
     <question-summary></question-summary>
     <div id="question-container">
       <component
-        :is="activeQuestion"
+        :is="questionView"
         :question="currentQuestion"
       >
       </component>
@@ -42,13 +42,13 @@ export default {
   },
   data() {
     return {
-      activeQuestion: 'radio-question', // TODO change to dynamic value question.questionType
+      questionView: 'radio-question',
       currentQuestion: {},
       questionary: {},
     };
   },
   methods: {
-    determineQuestionType: function (questionDefintion) {
+    determineQuestionView: function (questionDefintion) {
       if (questionDefintion.answers.length > 1) {
         if (questionDefintion.answers[0].label === 'Ja') {
           return 'question-binary';
@@ -80,9 +80,10 @@ export default {
     ).then(function(response) {
       response.text().then( function (text) {
         let responseBody = JSON.parse(text);
-        vueQuestion.activeQuestion = vueQuestion.determineQuestionType(
+        vueQuestion.questionView = vueQuestion.determineQuestionView(
           responseBody
-        )
+        );
+        vueQuestion.currentQuestion = responseBody;
       });
     });
   },

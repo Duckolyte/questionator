@@ -1,6 +1,6 @@
 <template>
   <div class="question-container">
-    <form>
+    <form onSubmit="return false">
       <div id="form-header">
         <slot name="form-header"></slot>
       </div>

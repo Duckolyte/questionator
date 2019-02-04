@@ -1,16 +1,20 @@
 <template>
   <base-question>
     <div slot="form-header">
-      <h1>input question header</h1>
+      <h3>{{question.label}}</h3>
     </div>
     <div slot="form-fields">
-      <input type="text" name="" value="">
+      <label>{{question.answers[0].label}}</label>
+      <input
+        type="text"
+        name=""
+        v-model:value.lazy="question.answers[0].value"
+        @keyup.enter="nextQuestion(question.answers[0].next)"
+      />
     </div>
     <div slot="form-controls">
-      <button type="button" name="button">Next</button>
     </div>
     <div slot="form-footer">
-      <p>input question footer</p>
     </div>
   </base-question>
 </template>
@@ -35,7 +39,10 @@ export default
     };
   },
   methods: {
-
+    nextQuestion: function (next) {
+      console.log('nextQuestion');
+      console.log(next);
+    }
   },
 };
 
