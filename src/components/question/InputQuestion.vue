@@ -21,6 +21,11 @@ import BaseQuestion from './BaseQuestion.vue';
 
 export default
 {
+  props: {
+    question: {
+      type: Object,
+    },
+  },
   components: {
     'base-question': BaseQuestion,
   },

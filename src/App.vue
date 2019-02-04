@@ -16,6 +16,12 @@ export default {
     'app-header': AppHeader,
     'app-footer': AppFooter,
   },
+  data() {
+    return {
+      questionary: {
+      },
+    };
+  },
 };
 
 </script>
