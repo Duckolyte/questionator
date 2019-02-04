@@ -4,15 +4,20 @@
       <h3>{{question.label}}</h3>
     </div>
     <div slot="form-fields">
-      <label>{{question.answers[0].label}}</label>
-      <input
-        type="text"
-        name=""
-        v-model:value.lazy="question.answers[0].value"
-        @keyup.enter="nextQuestion(question.answers[0].next)"
-      />
     </div>
     <div slot="form-controls">
+      <input
+        type="button"
+        name=""
+        :value="question.answers[0].label"
+        @click="nextQuestion(question.answers[0].next)"
+      />
+      <input
+        type="button"
+        name=""
+        :value="question.answers[1].label"
+        @click="nextQuestion(question.answers[1].next)"
+      />
     </div>
     <div slot="form-footer">
     </div>

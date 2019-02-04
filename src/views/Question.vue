@@ -13,8 +13,11 @@
 
 <script>
 
+import { bus } from '../main';
+
 import InputQuestion from '../components/question/InputQuestion.vue';
 import RadioQuestion from '../components/question/RadioQuestion.vue';
+import BinaryQuestion from '../components/question/BinaryQuestion.vue';
 import QuestionSummary from '../components/sidebar/QuestionSummary.vue';
 
 export default {
@@ -38,6 +41,7 @@ export default {
   {
     'input-question': InputQuestion,
     'radio-question': RadioQuestion,
+    'binary-question': BinaryQuestion,
     'question-summary': QuestionSummary,
   },
   data() {
@@ -51,7 +55,7 @@ export default {
     determineQuestionView: function (questionDefintion) {
       if (questionDefintion.answers.length > 1) {
         if (questionDefintion.answers[0].label === 'Ja') {
-          return 'question-binary';
+          return 'binary-question';
         } else {
           return 'radio-question';
         }
@@ -61,31 +65,42 @@ export default {
       } else {
         return -1;
       }
-    }
+    },
+    fetchQuestion: function (url) {
+      let vueQuestion = this;
+      fetch(
+        'http://localhost:8001' + url,
+        {
+          method: 'get',
+          headers: {
+            'accept': 'application/json',
+            'content-type': 'application/json',
+            'accept': 'application/json'
+          }
+        }
+      ).then(function(response) {
+        response.text().then( function (text) {
+          let responseBody = JSON.parse(text);
+          vueQuestion.questionView = vueQuestion.determineQuestionView(
+            responseBody
+          );
+          vueQuestion.currentQuestion = responseBody;
+        });
+      });
+    },
   },
   created() {
+
     let vueQuestion = this;
 
-    let url = 'http://localhost:8001/question?code=150';
-    fetch(
-      url,
-      {
-        method: 'get',
-        headers: {
-          'accept': 'application/json',
-          'content-type': 'application/json',
-          'accept': 'application/json'
-        }
-      }
-    ).then(function(response) {
-      response.text().then( function (text) {
-        let responseBody = JSON.parse(text);
-        vueQuestion.questionView = vueQuestion.determineQuestionView(
-          responseBody
-        );
-        vueQuestion.currentQuestion = responseBody;
-      });
+    bus.$on('nextQuestion', (nextQuestionUrl) => {
+      vueQuestion.fetchQuestion(nextQuestionUrl);
     });
+
+    // TODO: later should be replaced by calling from the UserRecord.vue
+    // TODO: bus.$emit('nextQuestion', init_question) and so fetch the first question
+    let url = '/question?code=1';
+    vueQuestion.fetchQuestion(url);
   },
 };
 
