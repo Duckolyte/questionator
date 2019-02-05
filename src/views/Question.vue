@@ -18,6 +18,7 @@ import { bus } from '../main';
 import InputQuestion from '../components/question/InputQuestion.vue';
 import RadioQuestion from '../components/question/RadioQuestion.vue';
 import BinaryQuestion from '../components/question/BinaryQuestion.vue';
+import SliderQuestion from '../components/question/SliderQuestion.vue';
 import QuestionSummary from '../components/sidebar/QuestionSummary.vue';
 
 export default {
@@ -42,6 +43,7 @@ export default {
     'input-question': InputQuestion,
     'radio-question': RadioQuestion,
     'binary-question': BinaryQuestion,
+    'slider-question': SliderQuestion,
     'question-summary': QuestionSummary,
   },
   data() {
@@ -61,6 +63,9 @@ export default {
         }
       }
       else if (questionDefintion.answers.length === 1) {
+        if (questionDefintion.answers[0].hasOwnProperty('max_range')) {
+          return 'slider-question';
+        }
         return 'input-question';
       } else {
         return -1;
