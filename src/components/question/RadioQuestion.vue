@@ -1,24 +1,39 @@
 <template>
   <base-question>
     <div slot="form-header">
-      <h1>radio question header</h1>
+      <h3>{{question.label}}</h3>
     </div>
     <div slot="form-fields">
-      <h3>Color</h3>
-      <input type="radio" name="test-radio" value="green" label="green"><br>
-      <input type="radio" name="test-radio" value="red" label="red"><br>
-      <input type="radio" name="test-radio" value="blue" label="blue"><br>
+      <template v-for="answer in question.answers">
+        <input
+          type="radio"
+          name="answer.code"
+          value="green"
+          label="green"
+          @click="nextQuestion(answer.next)"
+        >
+        <label for="answer.code">{{answer.label}}</label>
+        <br>
+      </template>
     </div>
     <div slot="form-controls">
-      <button type="button" name="button">Next</button>
+      <!-- OBSOLETE
+      <button
+        type="button"
+        name="button"
+      >
+        Weiter
+      </button>
+      -->
     </div>
     <div slot="form-footer">
-      <p>radio question footer</p>
     </div>
   </base-question>
 </template>
 
 <script>
+
+import { bus } from '../../main';
 
 import BaseQuestion from './BaseQuestion.vue';
 
@@ -29,8 +44,7 @@ export default
       type: Object,
     },
   },
-  components:
-  {
+  components: {
     'base-question': BaseQuestion,
   },
   data() {
@@ -38,9 +52,12 @@ export default
 
     };
   },
-  methods:
-  {
-
+  computed: {
+  },
+  methods: {
+    nextQuestion: function (next) {
+      bus.$emit('nextQuestion', next);
+    }
   },
 };
 

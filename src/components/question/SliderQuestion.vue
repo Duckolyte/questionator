@@ -11,7 +11,7 @@
         step="questionStep"
         name="questionRange"
         v-model:value.lazy="question.answers[0].value"
-        @keyup.enter="nextQuestion(question.answers[0].next)"
+        @change="nextQuestion(question.answers[0].next)"
       />
     </div>
     <div slot="form-controls">
