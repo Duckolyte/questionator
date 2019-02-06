@@ -5,40 +5,24 @@
     </div>
     <div slot="form-fields">
       <img
-        src="questionImage.imageSource"
-        width="145"
-        height="126"
-        alt="Planets"
-        usemap="#img-map"
-      >
-      <map name="img-map">
-        <template v-for="questionArea in answerMap.areas">
-          <area
-            title="question.answers.find(
-              (answer) => {answer.code == questionArea.mapsAnswerCode}
-            ).label"
-            shape="questionArea.shape"
-            coords="0,0,82,126"
-            alt="question.answers.find(
-              (answer) => {answer.code == questionArea.mapsAnswerCode}
-            ).label"
-          />
-        </template>
+        src="./image-mapping/TODO_REMOVE_human-body.png"
+        width="600"
+        height="600"
+        alt="Oops, missing image!"
+        usemap="#questionmap"
+      />
+      <map name="questionmap">
+        <map-area
+          v-for="questionArea in answerMap.areas"
+          :key="questionArea.id"
+          :question="testQuestion"
+          :questionArea="questionArea"
+          style="background: red;"
+        >
+        </map-area>
       </map>
     </div>
     <div slot="form-controls">
-      <input
-        type="button"
-        name=""
-        :value="question.answers[0].label"
-        @click="nextQuestion(question.answers[0].next)"
-      />
-      <input
-        type="button"
-        name=""
-        :value="question.answers[1].label"
-        @click="nextQuestion(question.answers[1].next)"
-      />
     </div>
     <div slot="form-footer">
     </div>
@@ -50,6 +34,7 @@
 import { bus } from '../../main';
 
 import BaseQuestion from './BaseQuestion.vue';
+import MapArea from './image-mapping/MapArea.vue';
 
 export default
 {
@@ -60,6 +45,7 @@ export default
   },
   components: {
     'base-question': BaseQuestion,
+    'map-area': MapArea,
   },
   computed: {
     // TODO: instead of a computed property use a new tempalte for the area fields maybe or use a
@@ -75,25 +61,29 @@ export default
             id: 0,
             mapsAnswerCode: 0,
             shape: "circle",
+            coords: "100,100,30",
             areaPosX: 100,
             areaPosY: 100,
             areaWidth: '',
             areaHeight: '',
-            areaRadius: 10,
+            areaRadius: 30,
           },
           {
             id: 1,
             mapsAnswerCode: 1,
             shape: "rect",
-            areaPosX: 0,
+            coords: "100,0,200,200",
+            areaPosX: 100,
             areaPosY: 0,
-            areaWidth: 50,
-            areaHeight: 50,
+            areaWidth: 200,
+            areaHeight: 200,
             areaRadius: '',
           },
           {
             id: 2,
             mapsAnswerCode: 2,
+            shape: "rect",
+            coords: "200,200,300,300",
             areaPosX: 150,
             areaPosY: 150,
             areaWidth: 50,
@@ -103,6 +93,8 @@ export default
           {
             id: 3,
             mapsAnswerCode: 3,
+            shape: "rect",
+            coords: "300,300,400,400",
             areaPosX: 200,
             areaPosY: 200,
             areaWidth: 50,
@@ -112,6 +104,8 @@ export default
           {
             id: 4,
             mapsAnswerCode: 4,
+            shape: "rect",
+            coords: "200,0,300,100",
             areaPosX: 250,
             areaPosY: 250,
             areaWidth: 50,
@@ -121,6 +115,8 @@ export default
           {
             id: 5,
             mapsAnswerCode: 5,
+            shape: "rect",
+            coords: "0,0,300,300",
             areaPosX: 300,
             areaPosY: 300,
             areaWidth: 50,
@@ -132,11 +128,14 @@ export default
       questionImage: {
         id: 0,
         questionCode: 1001,
-        imageSource: "body.png",
+        imageSource: "./image-mapping/TODO_REMOVE_human-body.png",
+        imageWidth: "500",
+        imageHeight:"500"
       },
       testQuestion: {
         code: 1001,
         label: 'test question label',
+        sourceId: 0,
         answers: [
           {
             code: 0,
@@ -173,6 +172,9 @@ export default
     };
   },
   methods: {
+    testClick: function () {
+      console.log('default clicked');
+    },
     nextQuestion: function (next) {
       bus.$emit('nextQuestion', next);
     }

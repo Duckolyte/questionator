@@ -19,6 +19,7 @@ import InputQuestion from '../components/question/InputQuestion.vue';
 import RadioQuestion from '../components/question/RadioQuestion.vue';
 import BinaryQuestion from '../components/question/BinaryQuestion.vue';
 import SliderQuestion from '../components/question/SliderQuestion.vue';
+import MappedImageQuestion from '../components/question/MappedImageQuestion.vue';
 import QuestionSummary from '../components/sidebar/QuestionSummary.vue';
 
 export default {
@@ -44,6 +45,7 @@ export default {
     'radio-question': RadioQuestion,
     'binary-question': BinaryQuestion,
     'slider-question': SliderQuestion,
+    'mappedimage-question': MappedImageQuestion,
     'question-summary': QuestionSummary,
   },
   data() {
@@ -59,7 +61,11 @@ export default {
         if (questionDefintion.answers[0].label === 'Ja') {
           return 'binary-question';
         } else {
-          return 'radio-question';
+          if (questionDefintion.sourceId) {
+            return 'mappedimage-question'
+          } else {
+            return 'radio-question';
+          }
         }
       }
       else if (questionDefintion.answers.length === 1) {
