@@ -9,7 +9,7 @@
         type="text"
         name=""
         v-model:value.lazy="question.answers[0].value"
-        @keyup.enter="nextQuestion(question.answers[0].next)"
+        @keyup.enter="submitQuestion(question, question.answers[0])"
       />
     </div>
     <div slot="form-controls">
@@ -41,9 +41,17 @@ export default
     };
   },
   methods: {
-    nextQuestion: function (next) {
+    storeAnswer(question, answer) {
+      const givenAnswer = new this.$_qap.QuestionAnswerPair(question, answer);
+      bus.$emit('storeAnswer', givenAnswer);
+    },
+    nextQuestion(next) {
       bus.$emit('nextQuestion', next);
-    }
+    },
+    submitQuestion(question, answer) {
+      this.storeAnswer(question, answer);
+      this.nextQuestion(answer.next);
+    },
   },
 };
 

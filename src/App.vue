@@ -1,7 +1,9 @@
 <template>
   <div id="app">
     <app-header/>
-    <router-view/>
+    <router-view
+      :questionary="questionary"
+    />
     <app-footer/>
   </div>
 </template>
@@ -19,6 +21,8 @@ export default {
   data() {
     return {
       questionary: {
+        id: "",
+        questionAnswerPairs: [],
       },
     };
   },

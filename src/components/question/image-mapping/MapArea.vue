@@ -4,7 +4,7 @@
     :shape="questionArea.shape"
     :coords="concatCoords"
     :alt="questionDescription"
-    @click="nextQuestion()"
+    @click="submitQuestion()"
   >
 </template>
 
@@ -48,16 +48,31 @@ export default
     };
   },
   methods: {
-    findQuestionsNext: function () {
+    findAreasAnswer() {
       return this.question.answers.find(
         (answer) => {
           return answer.code == this.questionArea.mapsAnswerCode;
         }
-      ).next;
+      );
     },
-    nextQuestion: function () {
+    findQuestionsNext() {
+      return this.findAreasAnswer().next;
+    },
+    storeAnswer() {
+      const givenAnswer = {
+        questionCode: this.question.code,
+        answerCode: this.questionArea.mapsAnswerCode,
+        answerValue: this.findAreasAnswer.label,
+      }
+      bus.$emit('storeAnswer', givenAnswer);
+    },
+    nextQuestion() {
       const next = this.findQuestionsNext();
       bus.$emit('nextQuestion', next);
+    },
+    submitQuestion(question, answer) {
+      this.storeAnswer();
+      this.nextQuestion();
     },
   },
 };

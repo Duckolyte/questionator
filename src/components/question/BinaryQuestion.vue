@@ -10,13 +10,13 @@
         type="button"
         name=""
         :value="question.answers[0].label"
-        @click="nextQuestion(question.answers[0].next)"
+        @click="submitQuestion(question, question.answers[0])"
       />
       <input
         type="button"
         name=""
         :value="question.answers[1].label"
-        @click="nextQuestion(question.answers[1].next)"
+        @click="submitQuestion(question, question.answers[1])"
       />
     </div>
     <div slot="form-footer">
@@ -46,9 +46,17 @@ export default
     };
   },
   methods: {
-    nextQuestion: function (next) {
+    storeAnswer(question, answer) {
+      const givenAnswer = new this.$_qap.QuestionAnswerPair(question, answer);
+      bus.$emit('storeAnswer', givenAnswer);
+    },
+    nextQuestion(next) {
       bus.$emit('nextQuestion', next);
-    }
+    },
+    submitQuestion(question, answer) {
+      this.storeAnswer(question, answer);
+      this.nextQuestion(answer.next);
+    },
   },
 };
 

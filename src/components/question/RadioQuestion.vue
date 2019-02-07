@@ -10,7 +10,7 @@
           name="answer.code"
           value="green"
           label="green"
-          @click="nextQuestion(answer.next)"
+          @click="submitQuestion(question, answer)"
         >
         <label for="answer.code">{{answer.label}}</label>
         <br>
@@ -55,9 +55,17 @@ export default
   computed: {
   },
   methods: {
-    nextQuestion: function (next) {
+    storeAnswer(question, answer) {
+      const givenAnswer = new this.$_qap.QuestionAnswerPair(question, answer);
+      bus.$emit('storeAnswer', givenAnswer);
+    },
+    nextQuestion(next) {
       bus.$emit('nextQuestion', next);
-    }
+    },
+    submitQuestion(question, answer) {
+      this.storeAnswer(question, answer);
+      this.nextQuestion(answer.next);
+    },
   },
 };
 

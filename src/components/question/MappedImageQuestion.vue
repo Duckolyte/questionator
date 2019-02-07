@@ -175,9 +175,9 @@ export default
     testClick: function () {
       console.log('default clicked');
     },
-    nextQuestion: function (next) {
+    nextQuestion(next) {
       bus.$emit('nextQuestion', next);
-    }
+    },
   },
 };
 

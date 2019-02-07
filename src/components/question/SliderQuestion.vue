@@ -11,16 +11,18 @@
         step="questionStep"
         name="questionRange"
         v-model:value.lazy="question.answers[0].value"
-        @change="nextQuestion(question.answers[0].next)"
+        @change="submitQuestion(question, question.answers[0])"
       />
     </div>
     <div slot="form-controls">
+      <!--
       <input
         type="button"
         name=""
         value="Weiter"
         @click="nextQuestion(question.answers[0].next)"
       />
+      -->
     </div>
     <div slot="form-footer">
     </div>
@@ -60,9 +62,17 @@ export default
     }
   },
   methods: {
-    nextQuestion: function (next) {
+    storeAnswer(question, answer) {
+      const givenAnswer = new this.$_qap.QuestionAnswerPair(question, answer);
+      bus.$emit('storeAnswer', givenAnswer);
+    },
+    nextQuestion(next) {
       bus.$emit('nextQuestion', next);
-    }
+    },
+    submitQuestion(question, answer) {
+      this.storeAnswer(question, answer);
+      this.nextQuestion(answer.next);
+    },
   },
 };
 
