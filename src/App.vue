@@ -22,6 +22,7 @@ export default {
     return {
       questionary: {
         id: "",
+        patientId: "test_000321",
         questionAnswerPairs: [],
       },
     };

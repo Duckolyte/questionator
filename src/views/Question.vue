@@ -70,6 +70,22 @@ export default {
         return -1;
       }
     },
+    storeQuestionary() {
+      const vueQuestion = this;
+      (async () => {
+        const rawResponse = await fetch('http://localhost:8002/questionary', {
+          method: 'post',
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(vueQuestion.questionary)
+        });
+        const content = await rawResponse;
+
+        console.log(content);
+      })();
+    },
     fetchQuestion(url) {
       const vueQuestion = this;
       fetch(
@@ -103,7 +119,11 @@ export default {
     const vueQuestion = this;
 
     bus.$on('nextQuestion', (nextQuestionUrl) => {
-      vueQuestion.fetchQuestion(nextQuestionUrl);
+      if (nextQuestionUrl === '/acquisition') {
+        vueQuestion.storeQuestionary();
+      } else {
+        vueQuestion.fetchQuestion(nextQuestionUrl);
+      }
     });
 
     bus.$on('storeAnswer', (answer) => {
