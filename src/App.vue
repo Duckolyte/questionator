@@ -3,6 +3,7 @@
     <app-header/>
     <router-view
       :questionary="questionary"
+      :user="user"
     />
     <app-footer/>
   </div>
@@ -20,6 +21,14 @@ export default {
   },
   data() {
     return {
+      user: {
+        lastname: "",
+        firstname: "",
+        gender: "",
+        dateOfBirth:"",
+        patientId: "",
+        caseId: "",
+      },
       questionary: {
         id: "",
         patientId: "test_000321",

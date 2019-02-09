@@ -1,6 +1,9 @@
 <template>
   <div class="user-record">
-    <user-record></user-record>
+    <user-record
+      :user="user"
+    >
+    </user-record>
   </div>
 </template>
 
@@ -9,22 +12,12 @@
 import UserRecord from '../components/user/UserRecord.vue';
 
 export default {
-  /*
   props:
   {
-    question:
-    {
+    user: {
       type: Object,
-      required: true,
-      validator: function(value)
-      {
-        return [
-          'input-question',
-          'radio-question'
-        ].indexOf(value.questionType) !== -1
-      }
     }
-  }, */
+  },
   components:
   {
     'user-record': UserRecord,
