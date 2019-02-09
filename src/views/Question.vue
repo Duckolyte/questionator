@@ -121,6 +121,7 @@ export default {
     bus.$on('nextQuestion', (nextQuestionUrl) => {
       if (nextQuestionUrl === '/acquisition') {
         vueQuestion.storeQuestionary();
+        vueQuestion.$router.push('/answer-overview')
       } else {
         vueQuestion.fetchQuestion(nextQuestionUrl);
       }
@@ -130,11 +131,21 @@ export default {
       vueQuestion.storeAnswer(answer);
     });
 
-    // TODO: later should be replaced by calling from the UserRecord.vue
-    // TODO: bus.$emit('nextQuestion', init_question) and so fetch the first question
-    const url = '/question?code=1';
-    vueQuestion.fetchQuestion(url);
+    const questionaryContent = vueQuestion.questionary.questionAnswerPairs;
+    const questionarySize = questionaryContent.length;
+    if (questionarySize > 0) {
+      const url = questionaryContent[questionarySize-1].answer.next;
+      vueQuestion.fetchQuestion(url);
+    } else {
+      // TODO here should load dynamically the init question of the app questionset
+      const url = '/question?code=1';
+      vueQuestion.fetchQuestion(url);
+    }
   },
+  destroyed() {
+    bus.$off('storeAnswer');
+    bus.$off('nextQuestion');
+  }
 };
 
 </script>

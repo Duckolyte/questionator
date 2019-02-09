@@ -8,7 +8,8 @@
       <router-link to="/test">Test</router-link> |
       <router-link to="/question">Question</router-link> |
       <router-link to="/auth">Authentication</router-link> |
-      <router-link to="/user">User Recording</router-link>
+      <router-link to="/user">User Recording</router-link> |
+      <router-link to="/answer-overview">Answer Overview</router-link> |
     </span>
   </div>
 </template>
