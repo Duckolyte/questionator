@@ -70,6 +70,9 @@ export default {
         return -1;
       }
     },
+    /*
+    * moved to AnswerSummary
+    *
     storeQuestionary() {
       const vueQuestion = this;
       (async () => {
@@ -86,6 +89,7 @@ export default {
         console.log(content);
       })();
     },
+    */
     fetchQuestion(url) {
       const vueQuestion = this;
       fetch(
@@ -120,7 +124,7 @@ export default {
 
     bus.$on('nextQuestion', (nextQuestionUrl) => {
       if (nextQuestionUrl === '/acquisition') {
-        vueQuestion.storeQuestionary();
+        // vueQuestion.storeQuestionary(); storing the questionary was moved to AnswerSummary.vue
         vueQuestion.$router.push('/answer-overview')
       } else {
         vueQuestion.fetchQuestion(nextQuestionUrl);
