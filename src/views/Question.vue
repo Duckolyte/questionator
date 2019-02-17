@@ -90,6 +90,9 @@ export default {
       })();
     },
     */
+    setCurrentQuestion(question) {
+      this.currentQuestion = question;
+    },
     fetchQuestion(url) {
       const vueQuestion = this;
       fetch(
@@ -104,17 +107,61 @@ export default {
       ).then((response) => {
         response.text().then((text) => {
           const responseBody = JSON.parse(text);
+
           vueQuestion.questionView = vueQuestion.determineQuestionView(
             responseBody,
           );
-          vueQuestion.currentQuestion = responseBody;
+
+          vueQuestion.setCurrentQuestion(
+            new vueQuestion.$_qap.Question(
+              responseBody.code,
+              responseBody.label,
+              responseBody.answers
+            )
+          );
+
         });
       });
     },
     storeAnswer(questionAnswerPair) {
-      this.questionary.questionAnswerPairs.push(
-        questionAnswerPair
+      const pairs = this.questionary.questionAnswerPairs;
+      let pairInPairs = pairs.find(
+        (pair) => {
+          return pair.question.questionaryQuestionId == questionAnswerPair.question.questionaryQuestionId
+        }
       );
+      if (pairInPairs) {
+        this.updatePair(pairInPairs, questionAnswerPair.question, questionAnswerPair.answer)
+        const nextPair = this.findNextQuestion(pairInPairs);
+        if (nextPair) {
+          this.currentQuestion = nextPair.question;
+        } else {
+          this.nextQuestion(pairInPairs.answer.next)
+        }
+      } else {
+        pairs.push(questionAnswerPair);
+        this.nextQuestion(questionAnswerPair.answer.next);
+      }
+    },
+    nextQuestion(nextQuestionUrl) {
+      if (nextQuestionUrl === '/acquisition') {
+        this.$router.push('/answer-overview')
+      } else {
+        this.fetchQuestion(nextQuestionUrl);
+      }
+    },
+    findNextQuestion(activePair) {
+      const activePairIndex = this.questionary.questionAnswerPairs.findIndex(
+        (pair) => {return pair.id == activePair.id}
+      );
+      if (activePairIndex < (this.questionary.questionAnswerPairs.length-1)) {
+        return this.questionary.questionAnswerPairs[activePairIndex+1]
+      }
+      return "";
+    },
+    updatePair(pair, question, answer) {
+      pair.question = question;
+      pair.answer = answer;
     },
   },
   beforeCreate() {
@@ -122,14 +169,26 @@ export default {
   created() {
     const vueQuestion = this;
 
+    /*
     bus.$on('nextQuestion', (nextQuestionUrl) => {
       if (nextQuestionUrl === '/acquisition') {
         // vueQuestion.storeQuestionary(); storing the questionary was moved to AnswerSummary.vue
         vueQuestion.$router.push('/answer-overview')
       } else {
-        vueQuestion.fetchQuestion(nextQuestionUrl);
+
+        // if the the next question already exists in the questionary load it from there instead fetch
+        //
+        if(vueQuestion.questionary.questionAnswerPairs.find(
+          (pair) => { return pair.question.questionaryQuestionId == pair.id }
+        ))
+        {
+          vueQuestion.currentQuestion = vueQuestion
+        } else {
+          vueQuestion.fetchQuestion(nextQuestionUrl);
+        }
       }
     });
+    */
 
     bus.$on('storeAnswer', (answer) => {
       vueQuestion.storeAnswer(answer);
@@ -138,8 +197,20 @@ export default {
     const questionaryContent = vueQuestion.questionary.questionAnswerPairs;
     const questionarySize = questionaryContent.length;
     if (questionarySize > 0) {
-      const url = questionaryContent[questionarySize-1].answer.next;
-      vueQuestion.fetchQuestion(url);
+      if (vueQuestion.$route.fullPath ==='/question') {
+        const url = questionaryContent[questionarySize-1].answer.next;
+        vueQuestion.fetchQuestion(url);
+      } else {
+        const url = vueQuestion.$route.fullPath;
+        const urlQuery = vueQuestion.$route.query;
+        let pairs = vueQuestion.questionary.questionAnswerPairs;
+        let pair = pairs.find(
+          (pair) => {return pair.id == urlQuery.pairid}
+        );
+        vueQuestion.currentQuestion = pair.question;
+
+        //vueQuestion.fetchQuestion(url);
+      }
     } else {
       // TODO here should load dynamically the init question of the app questionset
       const url = '/question?code=1';
@@ -148,7 +219,7 @@ export default {
   },
   destroyed() {
     bus.$off('storeAnswer');
-    bus.$off('nextQuestion');
+    //bus.$off('nextQuestion');
   }
 };
 

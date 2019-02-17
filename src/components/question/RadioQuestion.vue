@@ -64,7 +64,7 @@ export default
     },
     submitQuestion(question, answer) {
       this.storeAnswer(question, answer);
-      this.nextQuestion(answer.next);
+      // this.nextQuestion(answer.next);
     },
   },
 };

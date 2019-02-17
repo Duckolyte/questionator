@@ -10,7 +10,11 @@
         <div
         :key="questionAnswerPair.id"
         >
-          <p><b>{{ questionAnswerPair.question.label }}</b></p>
+          <p
+            @click="goToQuestion(questionAnswerPair)"
+          >
+            <b>{{ questionAnswerPair.question.label }}</b>
+          </p>
           <p
           v-if="questionAnswerPair.answer.value"
           >
@@ -67,9 +71,14 @@ export default
         console.log(content);
       })();
     },
-  },
-  backToQuestion(question){
-    
+    goToQuestion(questionAnswerPair) {
+      console.log('go to question');
+      this.$router.push(
+        '/question?code='+
+        questionAnswerPair.question.code +
+        '&pairid=' + questionAnswerPair.id
+      );
+    },
   },
 };
 
