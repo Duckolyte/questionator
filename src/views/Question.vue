@@ -124,17 +124,31 @@ export default {
       });
     },
     storeAnswer(questionAnswerPair) {
-      const pairs = this.questionary.questionAnswerPairs;
+      // check if pair already in questionary
+      let pairs = this.questionary.questionAnswerPairs;
       let pairInPairs = pairs.find(
         (pair) => {
           return pair.question.questionaryQuestionId == questionAnswerPair.question.questionaryQuestionId
         }
       );
       if (pairInPairs) {
+        const oldAnswersNext = pairInPairs.answer.next;
         this.updatePair(pairInPairs, questionAnswerPair.question, questionAnswerPair.answer)
         const nextPair = this.findNextQuestion(pairInPairs);
         if (nextPair) {
-          this.currentQuestion = nextPair.question;
+          // remove further qap in questionary if next does not point to old next
+          if (oldAnswersNext !== questionAnswerPair.answer.next) {
+            const pairIndex = pairs.findIndex(
+              (pair) => {
+                return pair.question.questionaryQuestionId == questionAnswerPair.question.questionaryQuestionId
+              }
+            );
+            pairs.length = pairIndex + 1
+            this.nextQuestion(questionAnswerPair.answer.next)
+          }
+          else {
+            this.currentQuestion = nextPair.question;
+          }
         } else {
           this.nextQuestion(pairInPairs.answer.next)
         }
