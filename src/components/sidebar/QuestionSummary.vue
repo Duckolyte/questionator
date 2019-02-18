@@ -10,7 +10,10 @@
         <div
           :key="questionAnswerPair.id"
         >
-          <p><b>{{ questionAnswerPair.question.label }}</b></p>
+          <p
+            @click="goToQuestion(questionAnswerPair)"
+          >
+            <b>{{ questionAnswerPair.question.label }}</b></p>
           <p
             v-if="questionAnswerPair.answer.value"
           >
@@ -28,6 +31,8 @@
 </template>
 
 <script>
+
+import { bus } from '../../main';
 
 import BaseSidebar from './BaseSidebar.vue';
 
@@ -47,7 +52,19 @@ export default
     };
   },
   methods: {
-
+    goToQuestion(questionAnswerPair) {
+      console.log('pair.question.code then pair.id');
+      console.log(questionAnswerPair.question.code);
+      console.log(questionAnswerPair.id);
+      bus.$emit('goToQuestionInQuestionary', questionAnswerPair)
+      /*
+      this.$router.push(
+        '/question?code='+
+        questionAnswerPair.question.code +
+        '&pairid=' + questionAnswerPair.id
+      );
+      */
+    },
   },
 };
 

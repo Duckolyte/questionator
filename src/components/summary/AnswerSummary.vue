@@ -69,6 +69,9 @@ export default
         const content = await rawResponse;
 
         console.log(content);
+
+        vueQuestion.questionary = {};
+        vueQuestion.$router.push('/');
       })();
     },
     goToQuestion(questionAnswerPair) {

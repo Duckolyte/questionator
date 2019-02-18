@@ -177,63 +177,52 @@ export default {
       pair.question = question;
       pair.answer = answer;
     },
+    initQuestion(vueQuestion) {
+      const questionaryContent = vueQuestion.questionary.questionAnswerPairs;
+      const questionarySize = questionaryContent.length;
+      if (questionarySize > 0) {
+        if (vueQuestion.$route.fullPath ==='/question') {
+          const url = questionaryContent[questionarySize-1].answer.next;
+          vueQuestion.fetchQuestion(url);
+        } else {
+          const url = vueQuestion.$route.fullPath;
+          const urlQuery = vueQuestion.$route.query;
+          let pairs = vueQuestion.questionary.questionAnswerPairs;
+          let pair = pairs.find(
+            (pair) => {return pair.id == urlQuery.pairid}
+          );
+          vueQuestion.currentQuestion = pair.question;
+
+          //vueQuestion.fetchQuestion(url);
+        }
+      } else {
+        // TODO here should load dynamically the init question of the app questionset
+        const url = '/question?code=1';
+        vueQuestion.fetchQuestion(url);
+      }
+    },
   },
   beforeCreate() {
   },
   created() {
     const vueQuestion = this;
 
-    /*
-    bus.$on('nextQuestion', (nextQuestionUrl) => {
-      if (nextQuestionUrl === '/acquisition') {
-        // vueQuestion.storeQuestionary(); storing the questionary was moved to AnswerSummary.vue
-        vueQuestion.$router.push('/answer-overview')
-      } else {
-
-        // if the the next question already exists in the questionary load it from there instead fetch
-        //
-        if(vueQuestion.questionary.questionAnswerPairs.find(
-          (pair) => { return pair.question.questionaryQuestionId == pair.id }
-        ))
-        {
-          vueQuestion.currentQuestion = vueQuestion
-        } else {
-          vueQuestion.fetchQuestion(nextQuestionUrl);
-        }
-      }
+    bus.$on('goToQuestionInQuestionary', (questionAnswerPair) => {
+      vueQuestion.questionView = vueQuestion.determineQuestionView(
+        questionAnswerPair.question
+      );
+      this.currentQuestion = questionAnswerPair.question;
     });
-    */
 
     bus.$on('storeAnswer', (answer) => {
       vueQuestion.storeAnswer(answer);
     });
 
-    const questionaryContent = vueQuestion.questionary.questionAnswerPairs;
-    const questionarySize = questionaryContent.length;
-    if (questionarySize > 0) {
-      if (vueQuestion.$route.fullPath ==='/question') {
-        const url = questionaryContent[questionarySize-1].answer.next;
-        vueQuestion.fetchQuestion(url);
-      } else {
-        const url = vueQuestion.$route.fullPath;
-        const urlQuery = vueQuestion.$route.query;
-        let pairs = vueQuestion.questionary.questionAnswerPairs;
-        let pair = pairs.find(
-          (pair) => {return pair.id == urlQuery.pairid}
-        );
-        vueQuestion.currentQuestion = pair.question;
-
-        //vueQuestion.fetchQuestion(url);
-      }
-    } else {
-      // TODO here should load dynamically the init question of the app questionset
-      const url = '/question?code=1';
-      vueQuestion.fetchQuestion(url);
-    }
+    vueQuestion.initQuestion(vueQuestion);
   },
   destroyed() {
     bus.$off('storeAnswer');
-    //bus.$off('nextQuestion');
+    bus.$off('goToQuestionInQuestionary');
   }
 };
 
