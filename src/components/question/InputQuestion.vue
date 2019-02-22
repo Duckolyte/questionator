@@ -1,16 +1,15 @@
 <template>
   <base-question>
     <div slot="form-header">
-      <h3>{{question.label}}</h3>
+      <h3 class="headline">{{question.label}}</h3>
     </div>
     <div slot="form-fields">
-      <label>{{question.answers[0].label}}</label>
-      <input
-        type="text"
-        name=""
-        v-model:value.lazy="question.answers[0].value"
-        @keyup.enter="submitQuestion(question, question.answers[0])"
-      />
+      <v-date-picker
+        color="secondary"
+        v-model="question.answers[0].value"
+        :value="question.answers[0].value"
+        @input="submitQuestion(question, question.answers[0])"
+      ></v-date-picker>
     </div>
     <div slot="form-controls">
     </div>

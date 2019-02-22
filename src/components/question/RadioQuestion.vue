@@ -1,20 +1,20 @@
 <template>
   <base-question>
     <div slot="form-header">
-      <h3>{{question.label}}</h3>
+      <h3 class="headline">{{question.label}}</h3>
     </div>
     <div slot="form-fields">
-      <template v-for="answer in question.answers">
-        <input
-          type="radio"
-          name="answer.code"
-          value="green"
-          label="green"
+      <div class="text-lg-center">
+        <v-radio-group color="secondary">
+          <v-radio
+          v-for="answer in question.answers"
+          :key="answer.code"
+          :label="answer.label"
+          :value="answer.label"
           @click="submitQuestion(question, answer)"
-        >
-        <label for="answer.code">{{answer.label}}</label>
-        <br>
-      </template>
+          ></v-radio>
+        </v-radio-group>
+      </div>
     </div>
     <div slot="form-controls">
       <!-- OBSOLETE

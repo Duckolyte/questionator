@@ -1,23 +1,21 @@
 <template>
   <base-question>
     <div slot="form-header">
-      <h3>{{question.label}}</h3>
+      <h3 class="headline">{{question.label}}</h3>
     </div>
     <div slot="form-fields">
     </div>
     <div slot="form-controls">
-      <input
-        type="button"
-        name=""
-        :value="question.answers[0].label"
+      <v-btn color="secondary"
         @click="submitQuestion(question, question.answers[0])"
-      />
-      <input
-        type="button"
-        name=""
-        :value="question.answers[1].label"
+      >
+        {{question.answers[0].label}}
+      </v-btn>
+      <v-btn color="secondary"
         @click="submitQuestion(question, question.answers[1])"
-      />
+      >
+        {{question.answers[1].label}}
+      </v-btn>
     </div>
     <div slot="form-footer">
     </div>

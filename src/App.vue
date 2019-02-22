@@ -1,12 +1,13 @@
 <template>
-  <div id="app">
+  <v-app light id="app">
     <app-header/>
     <router-view
+      class="pa-5"
       :questionary="questionary"
       :user="user"
     />
     <app-footer/>
-  </div>
+  </v-app>
 </template>
 
 <script>

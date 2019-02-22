@@ -4,6 +4,16 @@
       <h3>{{question.label}}</h3>
     </div>
     <div slot="form-fields">
+      <v-slider
+        :min="question.min_range"
+        :max="question.max_range"
+        :step="question.step"
+        name="questionRange"
+        :value.lazy="question.answers[0].value"
+        @change="submitQuestion(question, question.answers[0])"
+      >
+      </v-slider>
+      <!--
       <input
         type="range"
         min="questionMin"
@@ -13,6 +23,7 @@
         v-model:value.lazy="question.answers[0].value"
         @change="submitQuestion(question, question.answers[0])"
       />
+      -->
     </div>
     <div slot="form-controls">
       <!--
