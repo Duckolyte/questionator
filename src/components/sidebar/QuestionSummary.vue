@@ -30,37 +30,41 @@
 
       <v-card>
         <v-toolbar color="primary">
-          <h class="title">Zusammenfassung</h>
+
+          <v-icon class="mr-2">mdi-pencil-outline</v-icon>
+
+          <h3 class="subheading">Fragen bearbeiten</h3>
+          <!--
           <v-spacer></v-spacer>
           <v-list-tile-action
-            @click.stop=""
+            @click.stop="drawer != drawer"
           >
             <v-icon>chevron_left</v-icon>
           </v-list-tile-action>
+          -->
         </v-toolbar>
       </v-card>
 
-      <v-list two-line>
+      <v-list two-line content>
         <template
           v-for="questionAnswerPair in questionary.questionAnswerPairs"
         >
           <v-list-tile
             :key="questionAnswerPair.id"
+            @click="goToQuestion(questionAnswerPair)"
           >
             <v-list-tile-content>
-              <v-list-tile-title
-                @click="goToQuestion(questionAnswerPair)"
-              >
-                <b>{{ questionAnswerPair.question.label }}</b>
+              <v-list-tile-title>
+                {{ questionAnswerPair.question.label }}
               </v-list-tile-title>
-              <v-list-tile-subtitle
+              <v-list-tile-sub-title
                 v-if="questionAnswerPair.answer.value"
               >
                 {{ questionAnswerPair.answer.value }}
-              </v-list-tile-subtitle>
-              <v-list-tile-subtitle v-else>
+              </v-list-tile-sub-title>
+              <v-list-tile-sub-title v-else>
                 {{ questionAnswerPair.answer.label }}
-              </v-list-tile-subtitle>
+              </v-list-tile-sub-title>
             </v-list-tile-content>
           </v-list-tile>
         </template>

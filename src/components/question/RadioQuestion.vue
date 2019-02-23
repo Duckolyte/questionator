@@ -4,17 +4,19 @@
       <h3 class="headline">{{question.label}}</h3>
     </div>
     <div slot="form-fields">
-      <div class="text-lg-center">
-        <v-radio-group color="secondary">
-          <v-radio
-          v-for="answer in question.answers"
-          :key="answer.code"
-          :label="answer.label"
-          :value="answer.label"
-          @click="submitQuestion(question, answer)"
-          ></v-radio>
-        </v-radio-group>
-      </div>
+      <v-layout column align-center>
+        <v-flex xs-12>
+          <v-radio-group color="secondary">
+            <v-radio
+            v-for="answer in question.answers"
+            :key="answer.code"
+            :label="answer.label"
+            :value="answer.label"
+            @click="submitQuestion(question, answer)"
+            ></v-radio>
+          </v-radio-group>
+        </v-flex>
+      </v-layout>
     </div>
     <div slot="form-controls">
       <!-- OBSOLETE

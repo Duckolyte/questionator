@@ -5,6 +5,7 @@
     </div>
     <div slot="form-fields">
       <v-date-picker
+        :landscape="true"
         color="secondary"
         v-model="question.answers[0].value"
         :value="question.answers[0].value"

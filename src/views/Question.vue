@@ -12,9 +12,10 @@
     </v-btn>
     <v-navigation-drawer
       v-model="drawer"
+      width="400"
       absolute
       temporary
-     >
+    >
        <question-summary
          :questionary="questionary"
        >
