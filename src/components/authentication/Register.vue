@@ -4,6 +4,17 @@
       <h3>Register</h3>
     </div>
     <div slot="form-body">
+
+      <v-card
+        color="secondary"
+      >
+      </v-card>
+
+      <v-card>
+
+      </v-card>
+
+      <!--
       <div class="input-group mb-2">
         <div class="input-group-prepend">
           <span class="input-group-text">Account name:</span>
@@ -40,14 +51,17 @@
           name="password-confirmation"
         />
       </div>
+      -->
     </div><!-- slot: form-body -->
     <div slot="form-footer">
+      <!--
       <input
         class="btn btn-outline-primary mb-2"
         type="submit"
         name="commit"
         value="Register"
       />
+      -->
     </div>
   </base-auth>
 </template>

@@ -6,7 +6,9 @@
       :questionary="questionary"
       :user="user"
     />
-    <app-footer/>
+    <app-footer
+      class="pt-5"
+    />
   </v-app>
 </template>
 

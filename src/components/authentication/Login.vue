@@ -1,42 +1,39 @@
 <template>
   <base-auth>
     <div slot="form-header">
-      <h3>Sign On</h3>
     </div>
     <div slot="form-body">
-      <div class="input-group mb-2">
-        <div class="input-group-prepend">
-          <span class="input-group-text">Accountname:</span>
-        </div>
-        <input
-          class="form-control"
-          type="text"
-          aria-label="username"
-          placeholder="example@mymail.com"
-          name="username"
-        />
-      </div>
-      <div class="input-group mb-2">
-        <div class="input-group-prepend">
-          <span class="input-group-text">Password:</span>
-        </div>
-        <input
-          class="form-control"
-          type="password"
-          aria-label="password"
-          placeholder="**********"
-          name="password"
-        />
-      </div>
+      <v-card
+        color="primary"
+        class="py-3 my-1"
+      >
+        <h3 class="headline">Sign On</h3>
+      </v-card>
+      <v-card>
+        <v-text-field
+          v-model="user.firstname"
+          label="Benutzername"
+          clearable
+          maxlength="20"
+        >
+        </v-text-field>
+
+        <v-text-field
+          v-model="user.lastname"
+          label="Passwort"
+          clearable
+          maxlength="20"
+        >
+        </v-text-field>
+
+        <v-btn>
+          Sign on
+        </v-btn>
+      </v-card>
     </div><!-- slot: form-body -->
     <div slot="form-footer">
-      <input
-        class="btn btn-outline-primary mb-2"
-        type="submit"
-        name="commit"
-        value="Sign On"
-      />
     </div>
+
   </base-auth>
 </template>
 
@@ -51,7 +48,9 @@ export default {
   },
   data() {
     return {
-
+      user: {
+        Type: Object,
+      }
     };
   },
   computed: {
