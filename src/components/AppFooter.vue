@@ -5,31 +5,41 @@
       absolute
       color="transparent"
     >
+
       <v-btn
         color="teal"
         flat
-        value="recent"
+        to="/"
       >
-        <span>Recent</span>
-        <v-icon>history</v-icon>
+        <span>Home</span>
+        <v-icon>mdi-home</v-icon>
       </v-btn>
 
       <v-btn
         color="teal"
         flat
-        value="favorites"
+        to="/user"
       >
-        <span>Favorites</span>
-        <v-icon>favorite</v-icon>
+        <span>Patienten Daten</span>
+        <v-icon>mdi-account-circle</v-icon>
       </v-btn>
 
       <v-btn
         color="teal"
         flat
-        value="nearby"
+        to="/question"
       >
-        <span>Nearby</span>
-        <v-icon>place</v-icon>
+        <span>Fragebogen</span>
+        <v-icon>mdi-file</v-icon>
+      </v-btn>
+
+      <v-btn
+        color="teal"
+        flat
+        to="/answer-overview"
+      >
+        <span>Übersicht</span>
+        <v-icon>mdi-file-check</v-icon>
       </v-btn>
     </v-bottom-nav>
   </div>

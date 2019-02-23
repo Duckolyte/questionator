@@ -1,9 +1,26 @@
 <template>
   <div class="question">
-    <question-summary
-      :questionary="questionary"
+    <v-btn
+      absolute
+      dark
+      fab
+      left
+      color="secondary"
+      @click.stop="drawer = !drawer"
     >
-    </question-summary>
+      <v-icon>chevron_right</v-icon>
+    </v-btn>
+    <v-navigation-drawer
+      v-model="drawer"
+      absolute
+      temporary
+     >
+       <question-summary
+         :questionary="questionary"
+       >
+       </question-summary>
+     </v-navigation-drawer>
+
     <div id="question-container">
       <component
         :is="questionView"
@@ -48,6 +65,7 @@ export default {
     return {
       questionView: 'radio-question',
       currentQuestion: {},
+      drawer: null,
     };
   },
   methods: {
