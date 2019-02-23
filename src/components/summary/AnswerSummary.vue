@@ -1,41 +1,54 @@
 <template>
-  <div class="">
-    <div>
-      <h3>Zusammenfassung</h3>
-    </div>
-    <div>
-      <template
-      v-for="questionAnswerPair in questionary.questionAnswerPairs"
-      >
-        <div
-        :key="questionAnswerPair.id"
-        >
-          <p
-            @click="goToQuestion(questionAnswerPair)"
+  <v-layout
+    align-center
+    justify-center
+    column
+  >
+    <v-flex xs12>
+      <v-card>
+        <v-toolbar color="primary">
+          <v-icon class="mr-2">mdi-file-check</v-icon>
+          <h3 class="subheading">Übersicht</h3>
+        </v-toolbar>
+      </v-card>
+      <v-card>
+        <v-list two-line content>
+          <template
+            v-for="questionAnswerPair in questionary.questionAnswerPairs"
           >
-            <b>{{ questionAnswerPair.question.label }}</b>
-          </p>
-          <p
-          v-if="questionAnswerPair.answer.value"
-          >
-          {{ questionAnswerPair.answer.value }}
-          </p>
-          <p v-else>
-            {{ questionAnswerPair.answer.label }}
-          </p>
-        </div>
-      </template>
-      <div>
-        <button
-          type="button"
-          name="submitQuestionary"
+            <v-list-tile
+              :key="questionAnswerPair.id"
+              @click="goToQuestion(questionAnswerPair)"
+            >
+              <v-list-tile-content>
+                <v-list-tile-title>
+                  {{ questionAnswerPair.question.label }}
+                </v-list-tile-title>
+                <v-list-tile-sub-title
+                  v-if="questionAnswerPair.answer.value"
+                >
+                  {{ questionAnswerPair.answer.value }}
+                </v-list-tile-sub-title>
+                <v-list-tile-sub-title v-else>
+                  {{ questionAnswerPair.answer.label }}
+                </v-list-tile-sub-title>
+              </v-list-tile-content>
+            </v-list-tile>
+          </template>
+        </v-list>
+        <div>
+          <v-btn
+          color="secondary"
           @click="storeQuestionary()"
-        >
-          Befragung abschliessen
-        </button>
-      </div>
-    </div>
-  </div>
+          >
+            Befragung abschliessen
+          </v-btn>
+        </div>
+      </v-card>
+    </v-flex>
+  </v-layout>
+
+
 </template>
 
 <script>
