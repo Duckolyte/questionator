@@ -5,11 +5,14 @@
     </div>
     <div slot="form-fields">
       <v-slider
-        :min="question.min_range"
-        :max="question.max_range"
-        :step="question.step"
+        :min="questionMin"
+        :max="questionMax"
+        :step="questionStep"
         name="questionRange"
-        :value.lazy="question.answers[0].value"
+        ticks
+        thumb-label="always"
+        thumb-color="secondary"
+        v-model="question.answers[0].value"
         @change="submitQuestion(question, question.answers[0])"
       >
       </v-slider>
@@ -85,6 +88,12 @@ export default
       this.nextQuestion(answer.next);
     },
   },
+  /*
+  beforeMount() {
+    console.log(this.question);
+    console.log(this.question.answers[0].value = this.question.answers[0].max_range / 2)
+    this.question.answers[0].value = this.question.answers[0].max_range / 2;
+  },*/
 };
 
 </script>

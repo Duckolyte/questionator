@@ -9,7 +9,7 @@
     <v-card>
       <v-card-text>
         <v-form onSubmit="return false">
-          <div id="form-header">
+          <div id="form-header" class="mb-5">
             <slot name="form-header"></slot>
           </div>
           <div id="form-fields">

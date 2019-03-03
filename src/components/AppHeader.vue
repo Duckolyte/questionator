@@ -4,7 +4,7 @@
       </v-toolbar-side-icon>
 
       <v-btn icon>
-        <v-icon>home</v-icon>
+        <v-icon>mdi-home</v-icon>
       </v-btn>
 
       <v-toolbar-title>

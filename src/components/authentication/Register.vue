@@ -1,67 +1,64 @@
 <template>
   <base-auth>
     <div slot="form-header">
-      <h3>Register</h3>
     </div>
     <div slot="form-body">
 
-      <v-card
-        color="secondary"
-      >
-      </v-card>
+        <v-toolbar
+          color="primary"
+        >
+          <h3 class="headline">Register</h3>
+        </v-toolbar>
 
       <v-card>
-
+        <v-text-field
+          v-model="user.lastname"
+          label="Name"
+          clearable
+          maxlength="20"
+        >
+        </v-text-field>
+        <v-text-field
+          v-model="user.firstname"
+          label="Vorname"
+          clearable
+          maxlength="20"
+        >
+        </v-text-field>
+        <v-text-field
+          v-model="user.email"
+          label="Email"
+          clearable
+          maxlength="20"
+        >
+        </v-text-field>
+        <v-text-field
+          v-model="user.password"
+          label="Passwort"
+          clearable
+          maxlength="20"
+          counter
+          :append-icon="show1 ? 'visibility' : 'visibility_off'"
+          :rules="[rules.required, rules.min]"
+          :type="show1 ? 'text' : 'password'"
+          @click:append="show1 = !show1"
+        >
+        </v-text-field>
+        <v-text-field
+          v-model="user.confirmPassword"
+          label="Passwort bestätigen"
+          clearable
+          maxlength="20"
+          counter
+          :append-icon="show2 ? 'visibility' : 'visibility_off'"
+          :rules="[rules.required, rules.min]"
+          :type="show2 ? 'text' : 'password'"
+          @click:append="show2 = !show2"
+        >
+        </v-text-field>
       </v-card>
-
-      <!--
-      <div class="input-group mb-2">
-        <div class="input-group-prepend">
-          <span class="input-group-text">Account name:</span>
-        </div>
-        <input
-          class="form-control"
-          type="email"
-          aria-label="username"
-          placeholder="example@mymail.com"
-          name="email"
-        />
-      </div>
-      <div class="input-group mb-2">
-        <div class="input-group-prepend">
-          <span class="input-group-text">Password:</span>
-        </div>
-        <input
-          class="form-control"
-          type="password"
-          aria-label="password"
-          placeholder="enter password"
-          name="password"
-        />
-      </div>
-      <div class="input-group mb-2">
-        <div class="input-group-prepend">
-          <span class="input-group-text">Password confirmation:</span>
-        </div>
-        <input
-          class="form-control"
-          type="password"
-          aria-label="password"
-          placeholder="confirm password"
-          name="password-confirmation"
-        />
-      </div>
-      -->
     </div><!-- slot: form-body -->
     <div slot="form-footer">
-      <!--
-      <input
-        class="btn btn-outline-primary mb-2"
-        type="submit"
-        name="commit"
-        value="Register"
-      />
-      -->
     </div>
   </base-auth>
 </template>
@@ -77,7 +74,21 @@ export default {
   },
   data() {
     return {
-
+      user: {
+        Type: Object,
+        firstname: "",
+        lastname: "",
+        email: "",
+        password: "",
+        confirmPassword: "",
+      },
+      show1: false,
+      show2: false,
+      rules: {
+        required: value => !!value || 'Required.',
+        min: v => v.length >= 8 || 'Min 8 characters',
+        emailMatch: () => ('The email and password you entered don\'t match')
+      },
     };
   },
   computed: {

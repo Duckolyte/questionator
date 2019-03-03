@@ -40,14 +40,7 @@
               color="secondary"
               @click="e1 = 2"
             >
-              Continue
-            </v-btn>
-
-            <v-btn
-              flat
-              color="secondary"
-            >
-              Cancel
+              Weiter
             </v-btn>
           </v-card>
         </v-stepper-content>
@@ -55,8 +48,6 @@
         <v-stepper-content step="2">
           <v-card
             class="mb-5"
-            color="grey lighten-1"
-            height="200px"
           >
             <que-register>
             </que-register>
@@ -67,22 +58,21 @@
             color="secondary"
             @click="e1 = 3"
           >
-            Continue
+            Registrieren
           </v-btn>
 
           <v-btn
             flat
             color="secondary"
+            @click="e1 = 3"
           >
-            Cancel
+            Weiter
           </v-btn>
         </v-stepper-content>
 
         <v-stepper-content step="3">
           <v-card
             class="mb-5"
-            color="grey lighten-1"
-            height="200px"
           >
             <que-login>
             </que-login>
@@ -93,14 +83,15 @@
             flat
             to="/user"
           >
-            Continue
+            Login
           </v-btn>
 
           <v-btn
             flat
             color="secondary"
+            @click="e1 = 2"
           >
-            Cancel
+            Zurück
           </v-btn>
         </v-stepper-content>
       </v-stepper-items>

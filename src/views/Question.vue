@@ -8,7 +8,7 @@
       color="secondary"
       @click.stop="drawer = !drawer"
     >
-      <v-icon>chevron_right</v-icon>
+      <v-icon>mdi-chevron-right</v-icon>
     </v-btn>
     <v-navigation-drawer
       v-model="drawer"

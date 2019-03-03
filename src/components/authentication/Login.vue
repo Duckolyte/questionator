@@ -11,24 +11,29 @@
       </v-card>
       <v-card>
         <v-text-field
-          v-model="user.firstname"
-          label="Benutzername"
+          v-model="user.email"
+          label="Email"
           clearable
           maxlength="20"
         >
         </v-text-field>
 
         <v-text-field
-          v-model="user.lastname"
+          v-model="user.password"
           label="Passwort"
           clearable
           maxlength="20"
+          :append-icon="showPw ? 'visibility' : 'visibility_off'"
+          :rules="[rules.required, rules.min]"
+          :type="showPw ? 'text' : 'password'"
+          @click:append="showPw = !showPw"
         >
         </v-text-field>
-
+        <!--
         <v-btn>
           Sign on
         </v-btn>
+        -->
       </v-card>
     </div><!-- slot: form-body -->
     <div slot="form-footer">
@@ -50,7 +55,13 @@ export default {
     return {
       user: {
         Type: Object,
-      }
+      },
+      showPw: false,
+      rules: {
+        required: value => !!value || 'Required.',
+        min: (v) => v.length >= 8 || 'Min 8 characters',
+        emailMatch: () => ('The email and password you entered don\'t match')
+      },
     };
   },
   computed: {
