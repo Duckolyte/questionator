@@ -20,13 +20,17 @@
               <map-area
                 v-for="questionArea in answerMap.areas"
                 :key="questionArea.id"
-                :question="testQuestion"
+                :question="question"
+                :areaAnswer="question.answers.find(
+                  (answer) => {return answer.code==questionArea.mapsAnswerCode}
+                )"
                 :questionArea="questionArea"
                 style="background: red;"
               >
               </map-area>
             </map>
           </v-flex>
+          <!--
           <v-flex xs6>
             <v-list>
               <v-list-tile
@@ -38,6 +42,7 @@
               </v-list-tile>
             </v-list>
           </v-flex>
+          -->
         </v-layout>
       </v-container>
 
@@ -68,11 +73,10 @@ export default
     'map-area': MapArea,
   },
   computed: {
-    // TODO: instead of a computed property use a new tempalte for the area fields maybe or use a
-    // method that concatenates the x,y,width,height to a property
   },
   data() {
     return {
+      answerMap: {},
       /*
       answerMap: {
         mapId: 0,
@@ -190,14 +194,16 @@ export default
           }
         ]
       }
+      */
     };
-    */
   },
   methods: {
     fetchImageMap() {
       const vueQuestion = this;
+      // TODO: should come from an appcontext
+      const questionResourceUrl = 'http://localhost:8001';
       fetch(
-        'http://localhost:8001' + '/imagemap',
+        `${questionResourceUrl}/imagemap?question_code=${vueQuestion.question.code}` ,
         {
           method: 'get',
           headers: {
@@ -208,28 +214,23 @@ export default
       ).then((response) => {
         response.text().then((text) => {
           const responseBody = JSON.parse(text);
+          console.log(responseBody);
 
-          vueQuestion.questionView = vueQuestion.determineQuestionView(
-            responseBody,
-          );
-
-          vueQuestion.setCurrentQuestion(
-            new vueQuestion.$_qap.Question(
-              responseBody.code,
-              responseBody.label,
-              responseBody.answers
-            )
-          );
+          // TODO: use abstraction
+          vueQuestion.answerMap = responseBody;
 
         });
       });
-    }
+    },
     testClick: function () {
       console.log('default clicked');
     },
     nextQuestion(next) {
       bus.$emit('nextQuestion', next);
     },
+  },
+  created() {
+    this.fetchImageMap()
   },
 };
 

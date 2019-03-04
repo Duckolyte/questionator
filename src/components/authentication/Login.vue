@@ -55,6 +55,8 @@ export default {
     return {
       user: {
         Type: Object,
+        email: "",
+        password: "",
       },
       showPw: false,
       rules: {

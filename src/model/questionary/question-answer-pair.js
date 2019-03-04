@@ -12,9 +12,10 @@ QuestionAnswerPair.prototype.generatePairId = (id_seq) => {
   return valBeforeInc;
 };
 
-function Question(code, label, answers) {
+function Question(code, label, answers, usesImage) {
   this.questionaryQuestionId = this.generateQuestionId(this.sequence);
   this.code = code;
+  this.usesImage = usesImage;
   this.label = label;
   this.answers = answers;
 };

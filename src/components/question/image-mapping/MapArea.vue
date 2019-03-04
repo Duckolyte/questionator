@@ -4,7 +4,7 @@
     :shape="questionArea.shape"
     :coords="concatCoords"
     :alt="questionDescription"
-    @click="submitQuestion()"
+    @click="submitQuestion(question, areaAnswer)"
   >
 </template>
 
@@ -21,6 +21,9 @@ export default
     question: {
       type: Object,
     },
+    areaAnswer: {
+      type: Object,
+    }
   },
   computed: {
     questionDescription: function () {
@@ -58,12 +61,8 @@ export default
     findQuestionsNext() {
       return this.findAreasAnswer().next;
     },
-    storeAnswer() {
-      const givenAnswer = {
-        questionCode: this.question.code,
-        answerCode: this.questionArea.mapsAnswerCode,
-        answerValue: this.findAreasAnswer.label,
-      }
+    storeAnswer(question, answer) {
+      const givenAnswer = new this.$_qap.QuestionAnswerPair(question, answer);
       bus.$emit('storeAnswer', givenAnswer);
     },
     nextQuestion() {
@@ -71,8 +70,7 @@ export default
       bus.$emit('nextQuestion', next);
     },
     submitQuestion(question, answer) {
-      this.storeAnswer();
-      this.nextQuestion();
+      this.storeAnswer(question, answer);
     },
   },
 };

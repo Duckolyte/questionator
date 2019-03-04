@@ -75,7 +75,7 @@ export default {
         if (questionDefintion.answers[0].label === 'Ja') {
           return 'binary-question';
         } else {
-          if (questionDefintion.sourceId) {
+          if (questionDefintion.usesImage) {
             return 'mappedimage-question';
           }
           return 'radio-question';
@@ -130,6 +130,8 @@ export default {
           vueQuestion.questionView = vueQuestion.determineQuestionView(
             responseBody,
           );
+
+          console.log(responseBody);
 
           vueQuestion.setCurrentQuestion(
             new vueQuestion.$_qap.Question(
