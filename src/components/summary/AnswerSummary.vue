@@ -36,14 +36,14 @@
             </v-list-tile>
           </template>
         </v-list>
-        <div>
-          <v-btn
+      </v-card>
+      <v-card>
+        <v-btn
           color="secondary"
           @click="storeQuestionary()"
-          >
-            Befragung abschliessen
-          </v-btn>
-        </div>
+        >
+          Befragung abschliessen
+        </v-btn>
       </v-card>
     </v-flex>
   </v-layout>

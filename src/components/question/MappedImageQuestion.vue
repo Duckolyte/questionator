@@ -7,42 +7,58 @@
 
       <v-container grid-list-xs,sm,md,lg,xl>
         <v-layout row wrap>
-          <v-flex xs6>
-            <img
-              src="./image-mapping/TODO_REMOVE_human-body.png"
-              width="600"
-              height="600"
-              alt="Oops, missing image!"
-              usemap="#questionmap"
-            />
 
-            <map name="questionmap">
-              <map-area
-                v-for="questionArea in answerMap.areas"
-                :key="questionArea.id"
-                :question="question"
-                :areaAnswer="question.answers.find(
-                  (answer) => {return answer.code==questionArea.mapsAnswerCode}
-                )"
-                :questionArea="questionArea"
-                style="background: red;"
-              >
-              </map-area>
-            </map>
+          <v-flex xs5>
+            <v-card>
+              <img
+                src="./image-mapping/TODO_REMOVE_human-body.png"
+                width="300"
+                height="500"
+                alt="Oops, missing image!"
+                usemap="#questionmap"
+              />
+
+              <map name="questionmap">
+                <map-area
+                  v-for="questionArea in answerMap.areas"
+                  :key="questionArea.id"
+                  :question="question"
+                  :areaAnswer="question.answers.find(
+                    (answer) => {return answer.code==questionArea.mapsAnswerCode}
+                  )"
+                  :questionArea="questionArea"
+                  style="background: red;"
+                >
+                </map-area>
+              </map>
+            </v-card>
           </v-flex>
-          <!--
-          <v-flex xs6>
-            <v-list>
-              <v-list-tile
-                for="answer in question.answers"
-              >
-                <v-list-tile-title>
-                  {{answer.label}}
-                </v-list-tile-title>
-              </v-list-tile>
-            </v-list>
+          <v-flex xs2>
+            <!-- spacer -->
           </v-flex>
-          -->
+          <v-flex xs5>
+            <v-card>
+              <v-layout column wrap align-center>
+                <v-list>
+                  <template
+                    v-for="answer in question.answers"
+                  >
+                    <v-list-tile
+                      :key="answer.code"
+                      @click="submitQuestion(question, answer)"
+                    >
+                      <v-list-tile-content>
+                        <v-list-tile-title>
+                          {{answer.label}}
+                        </v-list-tile-title>
+                      </v-list-tile-content>
+                    </v-list-tile>
+                  </template>
+                </v-list>
+              </v-layout>
+            </v-card>
+          </v-flex>
+
         </v-layout>
       </v-container>
 
@@ -77,124 +93,6 @@ export default
   data() {
     return {
       answerMap: {},
-      /*
-      answerMap: {
-        mapId: 0,
-        mapsQuestionCode: 1001,
-        areas: [
-          {
-            id: 0,
-            mapsAnswerCode: 0,
-            shape: "circle",
-            coords: "100,100,30",
-            areaPosX: 100,
-            areaPosY: 100,
-            areaWidth: '',
-            areaHeight: '',
-            areaRadius: 30,
-          },
-          {
-            id: 1,
-            mapsAnswerCode: 1,
-            shape: "rect",
-            coords: "100,0,200,200",
-            areaPosX: 100,
-            areaPosY: 0,
-            areaWidth: 200,
-            areaHeight: 200,
-            areaRadius: '',
-          },
-          {
-            id: 2,
-            mapsAnswerCode: 2,
-            shape: "rect",
-            coords: "200,200,300,300",
-            areaPosX: 150,
-            areaPosY: 150,
-            areaWidth: 50,
-            areaHeight: 50,
-            areaRadius: '',
-          },
-          {
-            id: 3,
-            mapsAnswerCode: 3,
-            shape: "rect",
-            coords: "300,300,400,400",
-            areaPosX: 200,
-            areaPosY: 200,
-            areaWidth: 50,
-            areaHeight: 50,
-            areaRadius: '',
-          },
-          {
-            id: 4,
-            mapsAnswerCode: 4,
-            shape: "rect",
-            coords: "200,0,300,100",
-            areaPosX: 250,
-            areaPosY: 250,
-            areaWidth: 50,
-            areaHeight: 50,
-            areaRadius: '',
-          },
-          {
-            id: 5,
-            mapsAnswerCode: 5,
-            shape: "rect",
-            coords: "0,0,300,300",
-            areaPosX: 300,
-            areaPosY: 300,
-            areaWidth: 50,
-            areaHeight: 50,
-            areaRadius: '',
-          }
-        ]
-      },
-      questionImage: {
-        id: 0,
-        questionCode: 1001,
-        imageSource: "./image-mapping/TODO_REMOVE_human-body.png",
-        imageWidth: "500",
-        imageHeight:"500"
-      },
-      testQuestion: {
-        code: 1001,
-        label: 'test question label',
-        sourceId: 0,
-        answers: [
-          {
-            code: 0,
-            label: "Kopf",
-            next: "/question?code=1"
-          },
-          {
-            code: 1,
-            label: "Körper",
-            next: "/question?code=1"
-          },
-          {
-            code: 2,
-            label: "Arm links",
-            next: "/question?code=1"
-          },
-          {
-            code: 3,
-            label: "Arm rechts",
-            next: "/question?code=1"
-          },
-          {
-            code: 4,
-            label: "Bein links",
-            next: "/question?code=1"
-          },
-          {
-            code: 5,
-            label: "Bein rechts",
-            next: "/question?code=1"
-          }
-        ]
-      }
-      */
     };
   },
   methods: {
@@ -222,15 +120,19 @@ export default
         });
       });
     },
-    testClick: function () {
-      console.log('default clicked');
+    storeAnswer(question, answer) {
+      const givenAnswer = new this.$_qap.QuestionAnswerPair(question, answer);
+      bus.$emit('storeAnswer', givenAnswer);
     },
-    nextQuestion(next) {
-      bus.$emit('nextQuestion', next);
+    submitQuestion(question, answer) {
+      this.storeAnswer(question, answer);
     },
   },
   created() {
     this.fetchImageMap()
+  },
+  beforeMount() {
+
   },
 };
 
