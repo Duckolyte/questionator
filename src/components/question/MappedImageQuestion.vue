@@ -27,7 +27,6 @@
                     (answer) => {return answer.code==questionArea.mapsAnswerCode}
                   )"
                   :questionArea="questionArea"
-                  style="background: red;"
                 >
                 </map-area>
               </map>
@@ -44,6 +43,7 @@
                     v-for="answer in question.answers"
                   >
                     <v-list-tile
+                      :color="markedAsHovered(answer)"
                       :key="answer.code"
                       @click="submitQuestion(question, answer)"
                     >
@@ -93,9 +93,19 @@ export default
   data() {
     return {
       answerMap: {},
+      hoverArea: {},
     };
   },
   methods: {
+    markedAsHovered(answer) {
+      if (!this.hoverArea) {
+        return ''
+      }
+      if (answer.code == this.hoverArea.code) {
+          return 'primary';
+      }
+      return '';
+    },
     fetchImageMap() {
       const vueQuestion = this;
       // TODO: should come from an appcontext
@@ -129,10 +139,23 @@ export default
     },
   },
   created() {
-    this.fetchImageMap()
+    this.fetchImageMap();
+
+    bus.$on('hoverAreaAnswer', (answer) => {
+      this.hoverArea = answer;
+    });
+
+    bus.$on('mouseoutAreaAnswer', () => {
+      this.hoverArea = {};
+    });
+
+
   },
   beforeMount() {
 
+  },
+  destroyed() {
+    bus.$off('hoverAreaAnswer');
   },
 };
 

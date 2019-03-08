@@ -5,6 +5,8 @@
     :coords="concatCoords"
     :alt="questionDescription"
     @click="submitQuestion(question, areaAnswer)"
+    @mouseover="areaHover(areaAnswer)"
+    @mouseout="areaOut()"
   >
 </template>
 
@@ -51,6 +53,12 @@ export default
     };
   },
   methods: {
+    areaOut(areaAnswer) {
+      bus.$emit('mouseoutAreaAnswer');
+    },
+    areaHover(areaAnswer) {
+      bus.$emit('hoverAreaAnswer', areaAnswer);
+    },
     findAreasAnswer() {
       return this.question.answers.find(
         (answer) => {
