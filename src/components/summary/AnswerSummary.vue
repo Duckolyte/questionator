@@ -53,6 +53,8 @@
 
 <script>
 
+import { bus } from '../../main';
+
 export default
 {
   props: {
@@ -78,13 +80,20 @@ export default
             'Content-Type': 'application/json'
           },
           body: JSON.stringify(vueQuestion.questionary)
+        }).then((response) => {
+          response.text().then((text) => {
+            const content = JSON.parse(text);
+
+            console.log(content);
+            bus.$emit(
+              'snackbarQuestionarySuccess',
+              content.msg,
+              content.created
+            );
+            //vueQuestion.questionary = {};
+            //vueQuestion.$router.push('/');
+          });
         });
-        const content = await rawResponse;
-
-        console.log(content);
-
-        vueQuestion.questionary = {};
-        vueQuestion.$router.push('/');
       })();
     },
     goToQuestion(questionAnswerPair) {

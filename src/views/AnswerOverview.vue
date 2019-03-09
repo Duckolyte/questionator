@@ -4,10 +4,27 @@
       :questionary="questionary"
     >
     </answer-summary>
+    <v-snackbar
+      v-model="snackbar"
+      :top="true"
+      :timeout="6000"
+      :color="snackbarColor"
+    >
+      {{ snackbarText }}
+      <v-btn
+        color="black"
+        flat
+        @click="snackbar = false"
+      >
+        Close
+      </v-btn>
+    </v-snackbar>
   </div>
 </template>
 
 <script>
+
+import { bus } from '../main';
 
 import AnswerSummary from '../components/summary/AnswerSummary.vue';
 
@@ -19,7 +36,7 @@ export default {
     },
     questionary: {
       type: Object,
-    }
+    },
   },
   components:
   {
@@ -27,7 +44,20 @@ export default {
   },
   data() {
     return {
+      snackbar: false,
+      snackbarText: "",
+      snackbarColor: "light-green",
     };
+  },
+  created() {
+    bus.$on('snackbarQuestionarySuccess', (message, created) => {
+      this.snackbarText = message;
+      this.snackbarColor = created ? "light-green" : "red";
+      this.snackbar = true;
+    });
+  },
+  destroyed() {
+    bus.$off('snackbarQuestionarySuccess');
   },
 };
 
